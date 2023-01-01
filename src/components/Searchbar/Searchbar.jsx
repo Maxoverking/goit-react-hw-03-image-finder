@@ -1,9 +1,10 @@
 import { Component } from 'react'
-import { ImSearch } from 'react-icons/im'
+import { FaSistrix } from 'react-icons/fa'
 import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { Header, } from './Searchbar.styled'
+import { Header, Input, Button,SearchForm} from './Searchbar.styled'
+
 
 
 
@@ -37,21 +38,25 @@ export class Searchbar extends Component {
         const {imageName}=this.state
         return (   
 <Header >
-    <form onSubmit={this.transferimageNameToApp} >
-    <button type="submit" >
-    <span><ImSearch/></span>
-    </button>
+    <SearchForm onSubmit={this.transferimageNameToApp} >
+    <Button type="submit" >
+        <FaSistrix 
+        style={{
+            width: "16px",
+            height: "22px"
+            }} />
+    </Button>
 
-    <input
+    <Input
     onChange={this.handleChange}
     value={imageName}
-                        type="text"
-                        name='name'
-      autoComplete="off"
-      autoFocus
-      placeholder="Search images and photos"
+    type="text"
+    name='name'
+    autoComplete="off"
+    autoFocus
+    placeholder="Search images and photos"
     />
-    </form>
+    </SearchForm>
 </Header>
     )
 }}

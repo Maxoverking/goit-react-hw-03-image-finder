@@ -4,7 +4,6 @@ export const Header = styled.header`
   top: 0;
   left: 0;
   position: sticky;
-  z-index: 1100;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,24 +17,35 @@ export const Header = styled.header`
 `
 
 export const Input = styled.input`
- display: inline-block;
-  width: 230px;
-  font-size: 20px;
+  font-size: 16px;
   border: none;
   outline: none;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding: 4px 4px;
+  padding-top: 3.5px;
+  width: 280px;
+  border-bottom-right-radius:4px;
+  border-top-right-radius:4px;
    &::placeholder {
-  font-size: 10px;
+  font-size: 16px;
   }
 `
 export const SearchForm = styled.form`
   display: flex;
   align-items: center;
-  width: 230px;
-  max-width: 600px;
+  width: 100%;
+  max-width: 300px;
   background-color: #fff;
   border-radius: 3px;
-  overflow: hidden;
- 
+`
+
+export const Button = styled.button`
+display: inline-block;
+background-color: #fff;
+border: none;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  outline: none;
+  &:hover{
+background-color:#aca8a8;
+}
 `

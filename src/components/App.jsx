@@ -1,20 +1,24 @@
 import { Component } from 'react';
 import { ToastContainer} from 'react-toastify';
-import { requestHTTP } from './Servises/Servises'
+import { requestHTTP } from './Servises/Servises';
 
 import { Searchbar } from './Searchbar/Searchbar';
-import {ImageGallery} from './ImageGallery/ImageGallery'
-import {ImageGalleryItem} from './ImageGalleryItem/ImageGalleryItem'
-import {Button} from './Button/Button'
+import {ImageGallery} from './ImageGallery/ImageGallery';
+import {ImageGalleryItem} from './ImageGalleryItem/ImageGalleryItem';
+import { Button } from './Button/Button';
+import { Modal } from './Modal/Modal';
+import { Loader } from './Loader/Loader';
 export class App extends Component {
   state = {
     page : false,
     imageName:'',
-    imageArray: [],
-    isLoading : false
+    imageArray: null,
+    isLoading: false,
+    largeImageURL: false,
   }
 
   handleForm = async (imageName) => {
+    this.setState({isLoading : true})
     try {
     const data = await requestHTTP(imageName);
 
@@ -23,7 +27,8 @@ export class App extends Component {
       page: 2,
       imageName,
       imageArray: data.hits,
-    })
+      })
+      this.setState({isLoading : false})
     } catch (error) {
       console.log("🚀  error", error);
     }
@@ -52,7 +57,19 @@ export class App extends Component {
     }
   }
 
-  
+  getlargeImage = (largeImageURL) => {
+    this.setState({largeImageURL})
+  }
+  toggleModal = (evt) => {
+    this.setState({ largeImageURL: false})
+  }
+  // addEventListener = (evt) => {
+  //       // const target = evt.target
+  //   if (evt.keycode === 'ESCAPE') {
+  //     console.log('object');
+  //         // this.setState({ largeImageURL: false })
+  //   }
+  // }
   // async componentDidUpdate() {
   //   const { imageName} = this.state;
     
@@ -61,15 +78,24 @@ export class App extends Component {
   //    
   // }
   render() {
-    const { imageArray, page } = this.state;
+    const { imageArray,page,isLoading,largeImageURL} = this.state;
       return (
     <div>
           <Searchbar getImageName={this.handleForm} />
+          {isLoading && <Loader/>}
           <ImageGallery>
             {imageArray === null ?
-              '' : <ImageGalleryItem images={imageArray}/>}           
+              '' : <ImageGalleryItem
+                images={imageArray}
+                getlargeImage={this.getlargeImage}
+              />}           
           </ImageGallery>
           {page && <Button loadMoreImg={this.loadMoreImg} />}
+
+          {largeImageURL &&
+            <Modal
+            addImg={largeImageURL}
+            toggleModal={this.toggleModal} />}
           
           <ToastContainer 
           autoClose={2000}

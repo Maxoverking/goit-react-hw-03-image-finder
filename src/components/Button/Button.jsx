@@ -1,11 +1,13 @@
-import { Div } from "./Button.styled"
+import { Div,ButtonLoad} from "./Button.styled"
 
 export const Button = ({loadMoreImg}) => {
     return (
+
         <Div>
-        <button type="button" onClick={loadMoreImg}>
+        <ButtonLoad type="button" onClick={loadMoreImg}>
             Load More
-            </button>
+        </ButtonLoad>
         </Div>
+
     )
 }
