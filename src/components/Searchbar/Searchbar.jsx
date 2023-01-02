@@ -1,7 +1,9 @@
 import { Component } from 'react'
 import { FaSistrix } from 'react-icons/fa'
 import { toast } from 'react-toastify';
-import { Header, Input, Button,SearchForm} from './Searchbar.styled'
+  import 'react-toastify/dist/ReactToastify.css';
+import { Header, Input, Button, SearchForm } from './Searchbar.styled'
+
 
 export class Searchbar extends Component {
     state={
@@ -17,11 +19,16 @@ export class Searchbar extends Component {
         evt.preventDefault();
         const { imageName } = this.state
         if (imageName.trim() === '') {
-            console.log('object');
+            // console.log('object');
             toast.error(' Entry image name!');
+            // alert(' Entry image name!')
             return;
         }
         this.props.getImageName(imageName);
+        this.resetForm()
+        
+    }
+    resetForm = () => {
         this.setState({imageName:''})
     }
 

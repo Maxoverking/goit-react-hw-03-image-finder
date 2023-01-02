@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { ToastContainer} from 'react-toastify';
+ import { ToastContainer } from 'react-toastify';
 import { requestHTTP } from './Servises/Servises';
 
 import { Searchbar } from './Searchbar/Searchbar';
@@ -8,6 +8,15 @@ import {ImageGalleryItem} from './ImageGalleryItem/ImageGalleryItem';
 import { Button } from './Button/Button';
 import { Modal } from './Modal/Modal';
 import { Loader } from './Loader/Loader';
+
+// const Zoom = cssTransition({
+//   enter: 'zoomIn',
+//   exit: 'zoomOut',
+//   appendPosition: false,
+//   collapse: true,
+//   collapseDuration: 300
+// });
+
 export class App extends Component {
   state = {
     page : 1,
@@ -19,7 +28,11 @@ export class App extends Component {
 
   handleForm = async (imageName) => {
     this.setState({ isLoading: true });
-    this.setState({ imageName,page : 1,imageArray: []});
+    this.setState({
+      imageName,
+      page : 1,
+      imageArray: [],
+      largeImageURL: false});
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -65,6 +78,18 @@ export class App extends Component {
       return (
     <div>
           <Searchbar getImageName={this.handleForm} />
+          <ToastContainer
+autoClose={3000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+            theme="colored"
+            
+/>
           {isLoading && <Loader/>}
           <ImageGallery>
             {imageArray === [] ? '' :
@@ -79,18 +104,6 @@ export class App extends Component {
             <Modal
             addImg={largeImageURL}
             toggleModal={this.toggleModal} />}
-          
-          <ToastContainer 
-          autoClose={2000}
-hideProgressBar
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="colored"
-          />
     </div>
   );
   }
