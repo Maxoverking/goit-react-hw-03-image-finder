@@ -49,7 +49,7 @@ export class App extends Component {
     const {page,imageName} = this.state;
     try {
       const data = await requestHTTP(imageName, page);
-    if (data.hits.length < []) {
+    if (data.hits.length < 11) {
       this.setState({ page: false });
     }
     data.hits.map(objects => {
