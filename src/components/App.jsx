@@ -10,73 +10,56 @@ import { Modal } from './Modal/Modal';
 import { Loader } from './Loader/Loader';
 export class App extends Component {
   state = {
-    page : false,
+    page : 1,
     imageName:'',
-    imageArray: null,
+    imageArray: [],
     isLoading: false,
     largeImageURL: false,
   }
 
   handleForm = async (imageName) => {
-    this.setState({isLoading : true})
-    try {
-    const data = await requestHTTP(imageName);
-
-    console.log("🚀  data", data.hits);
-      this.setState({
-      page: 2,
-      imageName,
-      imageArray: data.hits,
-      })
-      this.setState({isLoading : false})
-    } catch (error) {
-      console.log("🚀  error", error);
-    }
+    this.setState({ isLoading: true });
+    this.setState({ imageName,page : 1,imageArray: []});
   }
 
-  loadMoreImg = async () => {
-    this.setState(({ page }) => ({
-      page: page + 1,
-    }));
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('componentDidUpdate');
+    const prevName = prevState.imageName;
+    const nextName = this.state.imageName;
+    if (prevName !== nextName) {
+      // console.log('object');
+      this.loadDataImage();
+    }
+  }
+  
+  loadDataImage = async () => {
     const {page,imageName} = this.state;
-    console.log("🚀  pageLOad", page);
-    
     try {
       const data = await requestHTTP(imageName, page);
-    if (data.hits.length < 10) {
+    if (data.hits.length < []) {
       this.setState({ page: false });
     }
-
-    console.log("🚀  dataload", data.hits);
     data.hits.map(objects => {
       return this.setState(({ imageArray }) => ({
-      imageArray: [...imageArray,objects]
-    	}))}) 
+        imageArray: [...imageArray, objects],
+      }))
+    }) 
+    this.setState(({ page }) => ({
+    page: page + 1,
+    })) 
     } catch (error) {
       console.log("🚀  error", error);
+    } finally {
+          this.setState({ isLoading: false });
     }
   }
-
-  getlargeImage = (largeImageURL) => {
+  getLargeImage = (largeImageURL) => {
     this.setState({largeImageURL})
   }
   toggleModal = (evt) => {
     this.setState({ largeImageURL: false})
   }
-  // addEventListener = (evt) => {
-  //       // const target = evt.target
-  //   if (evt.keycode === 'ESCAPE') {
-  //     console.log('object');
-  //         // this.setState({ largeImageURL: false })
-  //   }
-  // }
-  // async componentDidUpdate() {
-  //   const { imageName} = this.state;
-    
-  //   // this.setState({imageArray:data.hits})
-     
-  //    
-  // }
+
   render() {
     const { imageArray,page,isLoading,largeImageURL} = this.state;
       return (
@@ -84,13 +67,13 @@ export class App extends Component {
           <Searchbar getImageName={this.handleForm} />
           {isLoading && <Loader/>}
           <ImageGallery>
-            {imageArray === null ?
-              '' : <ImageGalleryItem
+            {imageArray === [] ? '' :
+              <ImageGalleryItem
                 images={imageArray}
-                getlargeImage={this.getlargeImage}
-              />}           
+                getLargeImage={this.getLargeImage}/>
+            }           
           </ImageGallery>
-          {page && <Button loadMoreImg={this.loadMoreImg} />}
+          {page < 2 ? '': <Button loadMoreImg={this.loadDataImage} />}
 
           {largeImageURL &&
             <Modal
@@ -106,12 +89,10 @@ rtl={false}
 pauseOnFocusLoss
 draggable
 pauseOnHover
-theme="colored"/>
+theme="colored"
+          />
     </div>
   );
   }
 
 };
-// id - уникальный идентификатор
-// webformatURL - ссылка на маленькое изображение для списка карточек
-// largeImageURL - ссылка на большое изображение для модального окна

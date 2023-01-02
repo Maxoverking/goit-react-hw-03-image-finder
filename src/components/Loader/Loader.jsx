@@ -1,5 +1,5 @@
-import { FallingLines } from  'react-loader-spinner'
-import{Div} from './Loader.styled'
+import { FallingLines } from 'react-loader-spinner';
+import { Div } from './Loader.styled';
 export const Loader = () => {
     return (
         <Div>

@@ -13,7 +13,8 @@ export const Overlay = styled.div`
   overflow:hidden;
 `
 export const ModalContainer = styled.div`
-width: 80%;
-margin:30px 0px;
+max-width: calc(100vw - 340px);
+max-height: calc(100vh - 100px);
+
 `
 

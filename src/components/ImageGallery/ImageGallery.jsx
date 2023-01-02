@@ -1,4 +1,5 @@
-import {Ul} from './ImageGallery.styled'
+import { Ul } from './ImageGallery.styled'
+import PropTypes  from "prop-types"
 
 export const ImageGallery = ({children}) => {
     return (
@@ -6,6 +7,9 @@ export const ImageGallery = ({children}) => {
             {children}
         </Ul>
     )
+}
+ImageGallery.propTypes = {
+    children: PropTypes.node.isRequired,
 }
 
 
